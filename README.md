@@ -35,7 +35,6 @@ Exemplo de conteúdo das chamadas "http://localhost:8080/venda/simular" ou "http
   },
   "itens": [
     {
-      "id": 1,
       "produto": {
         "id": 1
       },

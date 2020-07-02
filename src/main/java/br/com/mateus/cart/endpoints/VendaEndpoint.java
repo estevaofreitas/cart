@@ -1,10 +1,12 @@
 package br.com.mateus.cart.endpoints;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -121,6 +123,7 @@ public class VendaEndpoint {
 			@APIResponse(responseCode = "400", description = "Erro de validade dos valores da Venda", content = @Content(mediaType = "text/plain")),
 			@APIResponse(responseCode = "200", description = "A operação de venda totalmente calculada", content = @Content(mediaType = "application/json")) })
 	@Operation(summary = "Realiza o fechamento da venda", description = "Realiza o fechamento da Venda")
+	@Transactional
 	public Response checkout(Operacao operacao) {
 		validar(operacao);
 		calcular(operacao);
@@ -141,11 +144,12 @@ public class VendaEndpoint {
 
 		BigDecimal totalProdutos = BigDecimal.ZERO;
 		for (ItemOperacao item : operacao.getItens()) {
-			Produto produto = produtoRepository.findById(item.getId());
+			Produto produto = produtoRepository.findById(item.getProduto().getId());
 			item.setValor(produto.getPreco().multiply(item.getQuantidade()));
 			totalProdutos = totalProdutos.add(item.getValor());
 		}
 		operacao.setValorTotalProdutos(totalProdutos);
+		operacao.setData(new Date());
 
 		operacao.setValorTotal(operacao.getValorTotalFrete().add(operacao.getValorTotalProdutos()));
 	}
@@ -173,11 +177,6 @@ public class VendaEndpoint {
 
 		if (operacao.getOpcaoFrete() == null) {
 			throw new WebApplicationException("Atributo \"opcaoFrete\" não foi encontrado no request.",
-					Status.BAD_REQUEST);
-		}
-
-		if (operacao.getOpcaoFrete().getId() == null) {
-			throw new WebApplicationException("Atributo \"opcaoFrete.id\" não foi encontrado no request.",
 					Status.BAD_REQUEST);
 		}
 
