@@ -65,13 +65,8 @@ Exemplo de inclusão de um CRUD, neste caso é inclusão de Opção de Frete: "h
 Obs: Somente os ids são necessários para estabelecer os relacionamentos dos objetos, desta forma sempre envie os ids como foi feito acima. 
 Também não envie os ids dos objetos que ainda serão salvos pois eles são gerados de forma imcremental. Isto está dentro das validações feitas.
 
-Todos os CRUDS foram feitos seguindos as orientações sobre HTTP METHODS:
+As outras chamadas - http://localhost:8080/produto , http://localhost:8080/pessoa , http://localhost:8080/frete - foram feitos seguindos as orientações sobre HTTP METHODS:
 - POST: incluir, 
 - PUT: alterar,
 - GET: listar,
-- DELETE: deletar 
-
-http://localhost:8080/produto
-http://localhost:8080/pessoa
-http://localhost:8080/frete
-
+- DELETE: deletar
