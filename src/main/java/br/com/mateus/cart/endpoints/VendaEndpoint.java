@@ -61,8 +61,8 @@ public class VendaEndpoint {
 
 	@GET
 	@APIResponses(value = {
-			@APIResponse(responseCode = "200", description = "A Nota Fiscal da Venda em formato html", content = @Content(mediaType = "application/json")) })
-	@Operation(summary = "Monta a nota para impressão", description = "Lista de Notas Fiscais emitidas")
+			@APIResponse(responseCode = "200", description = "Todas as operações de venda", content = @Content(mediaType = "application/json")) })
+	@Operation(summary = "Lista todas as Operações de Venda", description = "Lista todas as Operações de Venda")
 	public List<Operacao> get() {
 		return operacaoRepository.listAll(Sort.descending("data"));
 	}
@@ -87,7 +87,7 @@ public class VendaEndpoint {
 	}
 
 	@GET
-	@Path("/buscar/{cliente}")
+	@Path("/cliente/{cliente}")
 	@APIResponses(value = {
 			@APIResponse(responseCode = "404", description = "O Cliente não foi encontrado", content = @Content(mediaType = "text/plain")),
 			@APIResponse(responseCode = "200", description = "Lista com todas as Vendas do Cliente", content = @Content(mediaType = "application/json")) })

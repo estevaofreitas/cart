@@ -44,6 +44,8 @@ Exemplo de conteúdo das chamadas "http://localhost:8080/venda/simular" ou "http
   }
 }
 ```
+Existe uma chamada que retorna todas as operações de venda: http://localhost:8080/venda/ 
+E outra chamada que retorna as vendas de um cliente: http://localhost:8080/venda/cliente/4
 
 A chamada de emissão de nota a partir de uma venda utilizando é a seguinte: http://localhost:8080/venda/nota/1
 Ela retorna a nota em formato HTML.
@@ -62,4 +64,14 @@ Exemplo de inclusão de um CRUD, neste caso é inclusão de Opção de Frete: "h
 ```
 Obs: Somente os ids são necessários para estabelecer os relacionamentos dos objetos, desta forma sempre envie os ids como foi feito acima. 
 Também não envie os ids dos objetos que ainda serão salvos pois eles são gerados de forma imcremental. Isto está dentro das validações feitas.
+
+Todos os CRUDS foram feitos seguindos as orientações sobre HTTP METHODS:
+- POST: incluir, 
+- PUT: alterar,
+- GET: listar,
+- DELETE: deletar 
+
+http://localhost:8080/produto
+http://localhost:8080/pessoa
+http://localhost:8080/frete
 
