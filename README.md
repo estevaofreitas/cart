@@ -4,32 +4,44 @@ Este projeto é uma pequena simulação do que seria um carrinho de compras com 
 
 Também foram implementados serviços CRUDs para algumas entidades - Pessoa, OpcaoFrete e Produto, desta forma pode-se realizar várias operações de venda e simular alterações no sistema. 
 
-## Rodando a Aplicação
+## Testando a aplicação
 
-Conforme solicitado, o arquivo abaixo do Docker Compose pode ser utilizado para subir a aplicação:
-
-
+Conforme solicitado, o arquivo abaixo do Docker Compose pode ser utilizado para subir a aplicação: https://github.com/estevaofreitas/cart/blob/master/src/main/docker/docker-compose.yml
 
 Comando:
 
 ```
-./mvnw quarkus:dev
+docker-compose up
 ```
 
-## Packaging and running the application
+## Testando a aplicação
 
-The application can be packaged using `./mvnw package`.
-It produces the `cart-1.0.0-SNAPSHOT-runner.jar` file in the `/target` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/lib` directory.
+Para facilitar os testes incluir o app Swagger: http://localhost:8080/swagger-ui/
 
-The application is now runnable using `java -jar target/cart-1.0.0-SNAPSHOT-runner.jar`.
+Todas as chamadas podem ser testadas diretamente nele.
 
-## Creating a native executable
+Exemplo de conteúdo das chamadas "/venda/simular" ou "/venda/checkout":
 
-You can create a native executable using: `./mvnw package -Pnative`.
+```
+{
+  "destinatario": {
+    "id": 4
+  },
+  "enderecoEntrega": {
+    "id": 4
+  },
+  "itens": [
+    {
+      "id": 1,
+      "produto": {
+        "id": 1
+      },
+      "quantidade": 10
+    }
+  ],
+  "opcaoFrete": {
+    "id": 1
+  }
+}
+```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: `./mvnw package -Pnative -Dquarkus.native.container-build=true`.
-
-You can then execute your native executable with: `./target/cart-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/building-native-image.
