@@ -1,0 +1,708 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Nota Fiscal</title>
+
+	<style>
+		body {
+			font-size: 10px;
+			background-color: #fff;
+			margin: 0px;
+			padding: 1px;
+			font-family: Arial, Helvetica;
+		}
+
+		#container {
+			margin: 1px;
+			padding: 0;
+		}
+		
+		.caption {
+			text-transform: uppercase;
+		}
+
+		h2 {
+			font-size: 13px;
+			font-weight: bold;
+			margin: 0;
+		}
+
+		h3 {
+			font-size: 8pt;
+			font-weight: bold;
+			color: #000;
+			margin: 4px 0 0 0;
+		}
+
+		td {
+			font-size: 7pt;
+			padding: 0;
+			margin: 0;
+		}
+
+		.grid {
+			border-collapse: collapse;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		.grid td {
+			border: 1px solid #000;
+			margin: 0px;
+			padding: 0;
+			margin: 0 1px 0 1px;
+		}
+
+		.grid td.none {
+			border: 0;
+			padding: 0 10px 0 10px;
+		}
+
+		.grid td.pad {
+			padding: 0 10px 0 10px;
+		}
+
+		.grid td.pad2 {
+			padding: 0 5px 0 5px;
+		}
+
+		.grid td.no-bottom {
+			border-bottom: none;
+		}
+
+		.grid th {
+			border: 1px solid #000;
+			font-size: 8pt;
+			text-align: left;
+			color: #000;
+		}
+		
+		.itens {
+			border: 1px solid #000;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		.itens td {
+			border-right: 1px solid #000;
+			margin: 0px;
+			padding: 0;
+			font-size: 7pt;
+		}
+
+		.itens th {
+			border-right: 1px solid #000;
+			border-bottom: 1px solid #000;
+			font-size: 7pt;
+			text-align: left;
+			color: #000;
+		}
+
+		table {
+			border-collapse: collapse;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		table td {
+			border: 0;
+			margin: 0;
+			padding: 0;
+		}
+
+		.caption {
+			margin: 0;
+			padding: 0 2px 1px 2px;
+			font-size: 6pt;
+			font-weight: normal;
+			color: #000;
+		}
+
+		.right {
+			text-align: right;
+			float: right;
+			padding-right: 5px;
+		}
+
+		.right2 {
+			text-align: right;
+			float: right;
+			padding-right: 1px;
+		}
+
+		.center {
+			text-align: center;
+			float: none;
+		}
+
+		.texto {
+			font-size: 8pt
+		}
+
+		.itens th.r {
+			text-align: right;
+		}
+		
+		.pontilhado {
+			width: 100%;
+			border-bottom: #000 1px dashed;
+			margin: 10px 0 10px 0;
+		}
+
+		span {
+			padding: 2px;
+			display: inline-block;
+		}
+
+		#container {
+			position: relative;
+			overflow: hidden;
+		}
+
+		#watermark {
+			position: absolute;
+			opacity: 0.2;
+			color: red;
+			font-size: 900%;
+			z-index: -1;
+			transform: rotate(-45deg);
+			top: 50%;
+			left: 50%;
+			white-space: nowrap;
+			width: 100%;
+			height: 100%;
+			transform-origin: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: -50% 0 0 -50%;
+		}
+	</style>
+</head>
+
+<body cz-shortcut-listen="true">
+	<div id="error-messages"></div>
+	<div id="container">
+
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<table class="grid" style="height:60px">
+							<tbody>
+								<tr>
+									<td class="no-bottom" colspan="2">
+										<p class="caption">RECEBEMOS DE {vendedor.nome} OS PRODUTOS CONSTANTES DA NOTA FISCAL INDICADA AO LADO</p>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<p class="caption">Data de recebimento</p>
+										<span></span>
+									</td>
+									<td>
+										<p class="caption">Identificação e assinatura do recebedor</p>
+										<span></span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+					<td>&nbsp;</td>
+					<td>
+						<table class="grid">
+							<tbody>
+								<tr>
+									<td style="height: 60px">
+										<center>
+											<b>NF-e</b>
+											<h2>Nº {operacao.id} </h2>
+											<b>Série 1 </b>
+										</center>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="pontilhado"></div>
+
+		<table class="grid">
+			<tbody>
+				<tr>
+					<td>
+						<table>
+							<tbody>
+								<tr>
+									<td class="none"></td>
+									<td class="pad2 none">
+										<b>{vendedor.nome}</b>
+										<br>{vendedor.endereco.logradouro} - {vendedor.endereco.bairro}<br>
+										{vendedor.endereco.cep} - {vendedor.endereco.municipio} - {vendedor.endereco.estado}<br>
+										Fone: {vendedor.telefone}</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+					<td class="none" style="width: 90px; padding-right: 0px;">
+						<div style="text-align:center;">
+							<h2>DANFE</h2>
+							Documento Auxiliar<br>da Nota Fiscal<br>Eletrônica
+						</div>
+						<table class="grid">
+							<tbody>
+								<tr>
+									<td class="none" style="width: 80px;">0-Entrada<br>1-Saída</td>
+									<td class="center" style="width: 100px;">
+										1 </td>
+								</tr>
+							</tbody>
+						</table>
+						<h2>Nº {operacao.id} </h2>
+						SERIE: 1 <br>
+						Página: 1 de 1
+					</td>
+					<td class="none" style="width: 320px; padding-right: 0px;">
+						<table>
+							<tbody>
+								<tr>
+									<td style="padding-bottom:5px;">
+										<p class="caption">Controle do Fisco</p>
+										<div style="text-align:center;">
+											<!--?xml version="1.0" standalone="no"?-->
+
+											<svg width="277" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg">
+												<desc>35200612564632000167550010000197111959063973</desc>
+												<g id="bars" fill="black" stroke="none">
+													<rect x="0" y="0" width="2" height="40"></rect>
+													<rect x="3" y="0" width="1" height="40"></rect>
+													<rect x="6" y="0" width="3" height="40"></rect>
+													<rect x="11" y="0" width="1" height="40"></rect>
+													<rect x="15" y="0" width="1" height="40"></rect>
+													<rect x="19" y="0" width="2" height="40"></rect>
+													<rect x="22" y="0" width="2" height="40"></rect>
+													<rect x="26" y="0" width="1" height="40"></rect>
+													<rect x="29" y="0" width="3" height="40"></rect>
+													<rect x="33" y="0" width="1" height="40"></rect>
+													<rect x="36" y="0" width="2" height="40"></rect>
+													<rect x="40" y="0" width="1" height="40"></rect>
+													<rect x="44" y="0" width="1" height="40"></rect>
+													<rect x="46" y="0" width="2" height="40"></rect>
+													<rect x="50" y="0" width="3" height="40"></rect>
+													<rect x="55" y="0" width="3" height="40"></rect>
+													<rect x="61" y="0" width="1" height="40"></rect>
+													<rect x="63" y="0" width="2" height="40"></rect>
+													<rect x="66" y="0" width="1" height="40"></rect>
+													<rect x="68" y="0" width="3" height="40"></rect>
+													<rect x="74" y="0" width="2" height="40"></rect>
+													<rect x="77" y="0" width="2" height="40"></rect>
+													<rect x="82" y="0" width="2" height="40"></rect>
+													<rect x="85" y="0" width="2" height="40"></rect>
+													<rect x="88" y="0" width="2" height="40"></rect>
+													<rect x="91" y="0" width="2" height="40"></rect>
+													<rect x="95" y="0" width="2" height="40"></rect>
+													<rect x="99" y="0" width="2" height="40"></rect>
+													<rect x="103" y="0" width="2" height="40"></rect>
+													<rect x="106" y="0" width="2" height="40"></rect>
+													<rect x="110" y="0" width="1" height="40"></rect>
+													<rect x="115" y="0" width="1" height="40"></rect>
+													<rect x="117" y="0" width="2" height="40"></rect>
+													<rect x="121" y="0" width="3" height="40"></rect>
+													<rect x="125" y="0" width="1" height="40"></rect>
+													<rect x="129" y="0" width="2" height="40"></rect>
+													<rect x="132" y="0" width="2" height="40"></rect>
+													<rect x="135" y="0" width="2" height="40"></rect>
+													<rect x="139" y="0" width="2" height="40"></rect>
+													<rect x="143" y="0" width="2" height="40"></rect>
+													<rect x="147" y="0" width="1" height="40"></rect>
+													<rect x="151" y="0" width="1" height="40"></rect>
+													<rect x="154" y="0" width="2" height="40"></rect>
+													<rect x="157" y="0" width="2" height="40"></rect>
+													<rect x="161" y="0" width="2" height="40"></rect>
+													<rect x="165" y="0" width="2" height="40"></rect>
+													<rect x="169" y="0" width="2" height="40"></rect>
+													<rect x="172" y="0" width="2" height="40"></rect>
+													<rect x="176" y="0" width="4" height="40"></rect>
+													<rect x="181" y="0" width="1" height="40"></rect>
+													<rect x="183" y="0" width="1" height="40"></rect>
+													<rect x="187" y="0" width="2" height="40"></rect>
+													<rect x="192" y="0" width="1" height="40"></rect>
+													<rect x="195" y="0" width="1" height="40"></rect>
+													<rect x="198" y="0" width="2" height="40"></rect>
+													<rect x="202" y="0" width="1" height="40"></rect>
+													<rect x="204" y="0" width="3" height="40"></rect>
+													<rect x="209" y="0" width="3" height="40"></rect>
+													<rect x="215" y="0" width="2" height="40"></rect>
+													<rect x="218" y="0" width="1" height="40"></rect>
+													<rect x="220" y="0" width="1" height="40"></rect>
+													<rect x="223" y="0" width="2" height="40"></rect>
+													<rect x="227" y="0" width="1" height="40"></rect>
+													<rect x="231" y="0" width="2" height="40"></rect>
+													<rect x="234" y="0" width="1" height="40"></rect>
+													<rect x="238" y="0" width="1" height="40"></rect>
+													<rect x="242" y="0" width="1" height="40"></rect>
+													<rect x="247" y="0" width="2" height="40"></rect>
+													<rect x="250" y="0" width="1" height="40"></rect>
+													<rect x="253" y="0" width="1" height="40"></rect>
+													<rect x="256" y="0" width="1" height="40"></rect>
+													<rect x="258" y="0" width="2" height="40"></rect>
+													<rect x="264" y="0" width="2" height="40"></rect>
+													<rect x="269" y="0" width="3" height="40"></rect>
+													<rect x="273" y="0" width="1" height="40"></rect>
+													<rect x="275" y="0" width="2" height="40"></rect>
+													<rect x="277" y="0" width="0" height="40"></rect>
+													<rect x="277" y="0" width="0" height="40"></rect>
+												</g>
+											</svg>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<p class="caption">Chave de acesso</p>
+										<div style="text-align:center;">
+											<span> 3520 0612 5646 3200 0167 5500 1000 0197 1119 5906 3973 </span>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td style="padding-left: 5px; padding-bottom: 5px; padding-top: 5px;">
+										Consulta de autenticidade no portal nacional da NF-e<br>
+										www.nfe.fazenda.gov.br/portal<br>
+										ou no site da Sefaz autorizadora
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<br>
+
+		<table class="grid">
+			<tbody>
+				<tr>
+					<td class="no-bottom">
+						<p class="caption">Natureza da operação</p>
+						<span> Venda de mercadorias </span>
+					</td>
+					<td class="no-bottom">
+						<p class="caption">Protocolo de autorização de uso</p>
+						<span> 135200489070541 16/06/2020 14:12:59 </span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="grid">
+			<tbody>
+				<tr>
+					<td>
+						<p class="caption">Inscrição Estadual</p>
+						<span> 637150846119 </span>
+					</td>
+					<td>
+						<p class="caption">Inscr.est. do subst.trib.</p>
+						<span> </span>
+					</td>
+					<td>
+						<p class="caption">CNPJ</p>
+						<span> {vendedor.cpfCnpj} </span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h3>Destinatário/Remetente</h3>
+		<table>
+			<tbody>
+				<tr>
+					<td style="padding-right: 10px">
+						<table class="grid">
+							<tbody>
+								<tr>
+									<td>
+										<p class="caption">Nome / Razão Social</p>
+										<span> {operacao.destinatario.nome} </span>
+									</td>
+									<td>
+										<p class="caption">CNPJ/CPF</p>
+										<span> {operacao.destinatario.cpfCnpj} </span>
+									</td>
+									<td>
+										<p class="caption">Inscrição Estadual</p>
+										<span> </span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<p class="caption">Endereço</p>
+										<span>{operacao.destinatario.endereco.logradouro}</span>
+									</td>
+									<td>
+										<p class="caption">Bairro</p>
+										<span> {operacao.destinatario.endereco.bairro} </span>
+									</td>
+									<td>
+										<p class="caption">CEP</p>
+										<span> {operacao.destinatario.endereco.cep} </span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<p class="caption">Município</p>
+										<span> {operacao.destinatario.endereco.municipio} </span>
+									</td>
+									<td>
+										<p class="caption">Fone/Fax</p>
+										<span> {operacao.destinatario.telefone} </span>
+									</td>
+									<td>
+										<p class="caption">UF</p>
+										<span> {operacao.destinatario.endereco.estado} </span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+					<td>
+						<table class="grid">
+							<tbody>
+								<tr>
+									<td>
+										<p class="caption">Data emissão</p>
+										<span> {operacao.data} </span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<p class="caption">Data saída</p>
+										<span> {operacao.data} </span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<p class="caption">Hora saída</p>
+										<span> - </span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h3>Cálculo do imposto</h3>
+		<table class="grid">
+			<tbody>
+				<tr>
+					<td class="no-bottom">
+						<p class="caption">Base de cálculo do ICMS</p> <span> 0,00 </span>
+					</td>
+					<td class="no-bottom">
+						<p class="caption">Valor do ICMS</p> <span> 0,00 </span>
+					</td>
+					<td class="no-bottom">
+						<p class="caption">Base de cálculo do ICMS Subst.</p> <span> 0,00 </span>
+					</td>
+					<td class="no-bottom">
+						<p class="caption">Valor do ICMS Subst.</p> <span> 0,00 </span>
+					</td>
+					<td class="no-bottom">
+						<p class="caption">Valor do FCP ST</p> <span> 0,00 </span>
+					</td>
+					<td class="no-bottom">
+						<p class="caption">Valor total dos produtos</p> <span> {operacao.valorTotalProdutos.currency} </span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="grid">
+			<tbody>
+				<tr>
+					<td>
+						<p class="caption">Valor do frete</p> <span> {operacao.valorTotalFrete.currency} </span>
+					</td>
+					<td>
+						<p class="caption">Valor do seguro</p> <span> 0,00 </span>
+					</td>
+					<td>
+						<p class="caption">Desconto</p> <span> 0,00 </span>
+					</td>
+					<td>
+						<p class="caption">Outras despesas acessórias</p> <span> 0,00 </span>
+					</td>
+					<td>
+						<p class="caption">Valor do IPI</p> <span> 0,00 </span>
+					</td>
+					<td>
+						<p class="caption">Valor total da nota</p> <span> {operacao.valorTotal.currency} </span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h3>Transportador/Volumes transportados</h3>
+		<table class="grid">
+			<tbody>
+				<tr>
+					<td class="no-bottom">
+						<p class="caption"></span>Nome</p>
+						<span> {operacao.opcaoFrete.transportador.nome} </span>
+					</td>
+					<td class="no-bottom" style="width:130px;">
+						<p class="caption">Frete por conta</p>
+						<span class="caption" style="float:left; font-size:7px;">0 - Contratação do Frete por conta do Remetente (CIF)</span>
+
+					</td>
+					<td class="no-bottom" style="width:120px;">
+						<p class="caption">Código ANTT</p>
+						<span> </span>
+					</td>
+					<td class="no-bottom" style="width:120px;">
+						<p class="caption">Placa do veículo</p>
+						<span> </span>
+					</td>
+					<td class="no-bottom" style="width:30px;">
+						<p class="caption">UF</p>
+						<span> </span>
+					</td>
+					<td class="no-bottom" style="width:100px;">
+						<p class="caption">CNPJ/CPF</p>
+						<span>{operacao.opcaoFrete.transportador.cpfCnpj}</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="grid">
+			<tbody>
+				<tr>
+					<td class="no-bottom">
+						<p class="caption">Endereço</p>
+						<span> {operacao.opcaoFrete.transportador.endereco.logradouro} - {operacao.opcaoFrete.transportador.endereco.bairro} </span>
+					</td>
+					<td class="no-bottom">
+						<p class="caption">Município</p>
+						<span> {operacao.opcaoFrete.transportador.endereco.municipio} </span>
+					</td>
+					<td class="no-bottom">
+						<p class="caption">UF</p>
+						<span> {operacao.opcaoFrete.transportador.endereco.estado} </span>
+					</td>
+					<td class="no-bottom">
+						<p class="caption">Inscrição Estadual</p>
+						<span> - </span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table class="grid">
+			<tbody>
+				<tr>
+					<td>
+						<p class="caption">Quantidade</p>
+						<span>  </span>
+					</td>
+					<td>
+						<p class="caption">Espécie</p>
+						<span> Volumes </span>
+					</td>
+					<td>
+						<p class="caption">Marca</p>
+						<span> </span>
+					</td>
+					<td>
+						<p class="caption">Numeração</p>
+						<span> </span>
+					</td>
+					<td>
+						<p class="caption">Peso bruto</p>
+						<span> </span>
+					</td>
+					<td>
+						<p class="caption">Peso líquido</p>
+						<span> 0,000 </span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h3>Itens da nota fiscal</h3>
+		<table class="itens">
+			<tbody>
+				<tr>
+					<th>Código</th>
+					<th>Descrição do produto/serviço</th>
+					<th>NCM/SH</th>
+					<th>CSOSN</th>
+					<th>CFOP</th>
+					<th>UN</th>
+					<th>Qtde</th>
+					<th class="r">Preço un</th>
+					<th class="r">Preço total</th>
+					<th class="r">BC ICMS</th>
+					<th class="r">Vlr.ICMS</th>
+					<th class="r">Vlr.IPI</th>
+					<th class="r">%ICMS</th>
+					<th class="r">%IPI</th>
+				</tr>
+				{#for item in operacao.itens}
+					<tr style="border-bottom: dotted 1pt #DEDEDE;">
+						<td>{item.produto.id}</td>
+						<td>{item.produto.descricao}</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>{item.produto.unidade}</td>
+						<td style="text-align: right;">{item.quantidade.weight}</td>
+						<td style="text-align: right;">{item.produto.preco.currency}</td>
+						<td style="text-align: right;">{item.valor.currency}</td>
+						<td style="text-align: right;">0,00</td>
+						<td style="text-align: right;">0,00</td>
+						<td style="text-align: right;">0,00</td>
+						<td style="text-align: right;">0,0000</td>
+						<td style="text-align: right;">0,00</td>
+					</tr>
+				{/for}
+			</tbody>
+		</table>
+
+		<h3>Dados adicionais</h3>
+		<table class="grid">
+			<tbody>
+				<tr>
+					<td width="50%" style="vertical-align: top;">
+						<p class="caption">Observações</p>
+						<br>
+						Tipo de Frete: {operacao.opcaoFrete.descricao}<br>
+						Prazo: {operacao.opcaoFrete.prazo} dias<br>
+						<br>
+					</td>
+					<td>
+						<p class="caption">Reservado ao fisco</p>
+						<br><br><br><br><br>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table>
+			<tbody>
+				<tr>
+					<td class="texto right"> 30/06/2020 14:37:48 </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>
