@@ -14,6 +14,9 @@ Comando:
 docker-compose up
 ```
 
+OBS: para facilitar os testes, a imagem do banco é a oficial do PostgreSQL e a cada reinício da aplicação o banco é resetado. 
+No entanto, durante o carregamento da aplicação, alguns dados de teste são são carregados em todas as tabelas.
+
 ## Testando a aplicação
 
 Para facilitar os testes inclui o app Swagger: "http://localhost:8080/swagger-ui/" , mas caso seja necessário pode-se utilizar o Advanced Rest Client.
