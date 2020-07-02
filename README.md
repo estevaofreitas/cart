@@ -16,11 +16,11 @@ docker-compose up
 
 ## Testando a aplicação
 
-Para facilitar os testes incluir o app Swagger: http://localhost:8080/swagger-ui/
+Para facilitar os testes incluir o app Swagger: http://localhost:8080/swagger-ui/ mas caso ele pode-se utilizar
 
 Todas as chamadas podem ser testadas diretamente nele.
 
-Exemplo de conteúdo das chamadas "/venda/simular" ou "/venda/checkout":
+Exemplo de conteúdo das chamadas "http://localhost:8080/venda/simular" ou "http://localhost:8080/venda/checkout":
 
 ```
 {
@@ -44,4 +44,22 @@ Exemplo de conteúdo das chamadas "/venda/simular" ou "/venda/checkout":
   }
 }
 ```
+
+A chamada de emissão de nota a partir de uma venda utilizando é a seguinte: http://localhost:8080/venda/nota/1
+Ela retorna a nota em formato HTML.
+
+Exemplo de inclusão de um CRUD, neste caso é inclusão de Opção de Frete: "http://localhost:8080/frete"
+
+```
+{
+  "descricao": "Normal",
+  "prazo": 1,
+  "preco": 200.45,
+  "transportador": {
+    "id": 3
+  }
+}
+```
+Obs: Somente os ids são necessários para estabelecer os relacionamentos dos objetos, desta forma sempre envie os ids como foi feito acima. 
+Também não envie os ids dos objetos que ainda serão salvos pois eles são gerados de forma imcremental. Isto está dentro das validações feitas.
 
