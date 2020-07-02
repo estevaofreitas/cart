@@ -16,7 +16,7 @@ docker-compose up
 
 ## Testando a aplicação
 
-Para facilitar os testes incluir o app Swagger: http://localhost:8080/swagger-ui/ mas caso ele pode-se utilizar
+Para facilitar os testes incluir o app Swagger: http://localhost:8080/swagger-ui/ mas caso seja necessário pode-se utilizar o Advanced Rest Client.
 
 Todas as chamadas podem ser testadas diretamente nele.
 
@@ -63,9 +63,9 @@ Exemplo de inclusão de um CRUD, neste caso é inclusão de Opção de Frete: "h
 }
 ```
 Obs: Somente os ids são necessários para estabelecer os relacionamentos dos objetos, desta forma sempre envie os ids como foi feito acima. 
-Também não envie os ids dos objetos que ainda serão salvos pois eles são gerados de forma imcremental. Isto está dentro das validações feitas.
+Também não envie os ids dos objetos que ainda serão salvos pois eles são gerados de forma incremental. Isto será rejeitado nas validações.
 
-As outras chamadas - http://localhost:8080/produto , http://localhost:8080/pessoa , http://localhost:8080/frete - foram feitos seguindos as orientações sobre HTTP METHODS:
+As outras chamadas - http://localhost:8080/produto , http://localhost:8080/pessoa , http://localhost:8080/frete - foram feitas seguindo as orientações sobre HTTP METHODS:
 - POST: incluir, 
 - PUT: alterar,
 - GET: listar,
