@@ -1,0 +1,34 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cart
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - postgres
+    restart: unless-stopped
+  
+  app:
+    image: estevaofreitas/cart:latest
+    depends_on:
+       - postgres
+    networks:
+      - postgres
+    ports:
+      - 8080:8080
+      
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+    postgres:

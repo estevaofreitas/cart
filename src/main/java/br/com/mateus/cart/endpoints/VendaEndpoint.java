@@ -60,6 +60,9 @@ public class VendaEndpoint {
 	Template nfce;
 
 	@GET
+	@APIResponses(value = {
+			@APIResponse(responseCode = "200", description = "A Nota Fiscal da Venda em formato html", content = @Content(mediaType = "application/json")) })
+	@Operation(summary = "Monta a nota para impressão", description = "Lista de Notas Fiscais emitidas")
 	public List<Operacao> get() {
 		return operacaoRepository.listAll(Sort.descending("data"));
 	}
@@ -101,6 +104,10 @@ public class VendaEndpoint {
 
 	@POST
 	@Path("/simular")
+	@APIResponses(value = {
+			@APIResponse(responseCode = "400", description = "Erro de validade dos valores da Venda", content = @Content(mediaType = "text/plain")),
+			@APIResponse(responseCode = "200", description = "A operação de venda totalmente calculada", content = @Content(mediaType = "application/json")) })
+	@Operation(summary = "Simula os valores totais da venda", description = "Simula utilizando o mesmo código que será usado no fechamento da Venda")
 	public Response simular(Operacao operacao) {
 		validar(operacao);
 		calcular(operacao);
@@ -110,6 +117,10 @@ public class VendaEndpoint {
 
 	@POST
 	@Path("/checkout")
+	@APIResponses(value = {
+			@APIResponse(responseCode = "400", description = "Erro de validade dos valores da Venda", content = @Content(mediaType = "text/plain")),
+			@APIResponse(responseCode = "200", description = "A operação de venda totalmente calculada", content = @Content(mediaType = "application/json")) })
+	@Operation(summary = "Realiza o fechamento da venda", description = "Realiza o fechamento da Venda")
 	public Response checkout(Operacao operacao) {
 		validar(operacao);
 		calcular(operacao);
