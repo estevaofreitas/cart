@@ -45,9 +45,11 @@ Exemplo de conteúdo das chamadas "http://localhost:8080/venda/simular" ou "http
 }
 ```
 Existe uma chamada que retorna todas as operações de venda: http://localhost:8080/venda/ 
+
 E outra chamada que retorna as vendas de um cliente: http://localhost:8080/venda/cliente/4
 
 A chamada de emissão de nota a partir de uma venda utilizando é a seguinte: http://localhost:8080/venda/nota/1
+
 Ela retorna a nota em formato HTML.
 
 Exemplo de inclusão de um CRUD, neste caso é inclusão de Opção de Frete: "http://localhost:8080/frete"
