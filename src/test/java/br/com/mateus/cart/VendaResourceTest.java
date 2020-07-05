@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-//@QuarkusTest
+@QuarkusTest
 public class VendaResourceTest {
 
-	//@Test
+	@Test
 	public void testVendaEndpoint() {
 		given().body("{\"tipo\": \"VENDA\", \"valortotal\": \"62.45\"}")
 				.header("Content-Type", MediaType.APPLICATION_JSON).when().get("/venda").then().statusCode(200)
